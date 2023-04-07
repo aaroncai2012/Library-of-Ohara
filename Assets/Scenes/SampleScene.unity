@@ -154,9 +154,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   canvas: {fileID: 1998996565}
   charPrefab: {fileID: 1666077875147781356, guid: da0f3a8c07a85164985c93ea4c38a634, type: 3}
-  word: what
+  input: "If there\u2019s any message to my work, it is ultimately that it\u2019s
+    OK to be different, that it\u2019s good to be different, that we should question
+    ourselves before we pass judgment on someone who looks different, behaves different,
+    talks different, is a different color."
   offsetX: 18
   offsetY: 18
+  wordSpacing: 100
+  lineSpacing: 100
+  wordNumPerLine: 17
   characters: []
 --- !u!4 &490732046
 Transform:
@@ -302,8 +308,8 @@ Camera:
   m_GameObject: {fileID: 963194225}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_ClearFlags: 2
+  m_BackGroundColor: {r: 1, g: 1, b: 1, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -466,10 +472,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 1920, y: 1080}
   m_ScreenMatchMode: 0
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
