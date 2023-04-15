@@ -32,7 +32,7 @@ public class GrammarGenerator : MonoBehaviour
 
 
     // Start is called before the first frame update
-    void Awake()
+    void Start()
     {
         if (generatorSeed != 0) {
             Random.InitState(generatorSeed);
