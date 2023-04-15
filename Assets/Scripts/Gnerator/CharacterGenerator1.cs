@@ -6,6 +6,10 @@ using UnityEngine.UI;
 
 public class CharacterGenerator1 : MonoBehaviour
 {
+    int wordOffset = 0;
+    int wordCountPerSentence = 0;
+    int newSentenceCount;
+
     public Canvas canvas;
     public Image charPrefab;
 
@@ -20,14 +24,25 @@ public class CharacterGenerator1 : MonoBehaviour
 
     void Start()
     {
+        
         characters = Resources.LoadAll<Sprite>("Characters");
         input = new string(input.Where(c => !char.IsPunctuation(c)).ToArray());
         input = input.ToUpper();
         string[] words = input.Split(' ');
+        
         for (int i = 0; i < words.Length; i++)
         {
-            Vector2 center = new Vector2((i % wordNumPerLine - wordNumPerLine / 2) * wordSpacing,
-                                         (words.Length / wordNumPerLine / 2 - i / wordNumPerLine) * lineSpacing);
+            if(words[i] == "N")
+            {
+                newSentenceCount += 1;
+                wordOffset = wordOffset +  (wordNumPerLine - wordCountPerSentence);
+                wordCountPerSentence = 0;
+                continue;
+            }
+            
+
+            Vector2 center = new Vector2(((i+ wordOffset-newSentenceCount) % wordNumPerLine - wordNumPerLine / 2) * wordSpacing,
+                                         (words.Length / wordNumPerLine / 2 - (i+ wordOffset - newSentenceCount) / wordNumPerLine) * lineSpacing);
             switch (words[i].Length)
             {
                 case 1:
@@ -56,6 +71,8 @@ public class CharacterGenerator1 : MonoBehaviour
                     Character(words[i][factor * 2], Position.BASERIGHT, center);
                     break;
             }
+
+            wordCountPerSentence += 1;
         }
     }
 
@@ -118,6 +135,11 @@ public class CharacterGenerator1 : MonoBehaviour
         }
         return res;
     }
+
+    public void MakeWordsOnClick()
+    {
+        Start();
+    }
 }
 
 enum Position
@@ -136,3 +158,4 @@ enum Position
     BASERIGHTLEFT,
     BASERIGHTRIGHT
 }
+
