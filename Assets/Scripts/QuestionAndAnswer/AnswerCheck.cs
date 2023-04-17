@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class AnswerCheck : MonoBehaviour
 {
@@ -18,21 +19,45 @@ public class AnswerCheck : MonoBehaviour
 
     public void CheckAnswerOnClick()
     {
-        if(this.GetComponent<CharacterGeneratorSingle>().input == RandomQuestion.Instance.Question.ToUpper())
+        if(RandomQuestion.Instance.GameEnd == 1)
         {
-            Debug.Log("True");
-            if (this.GetComponent<CharacterGeneratorSingle>().input == "FIRE")
+            if (this.GetComponent<CharacterGeneratorSingle>().input == RandomQuestion.Instance.Question.ToUpper())
+            { GameObject.Find("RespoundText").GetComponent<Text>().text = "You Did!"; }
+            else
             {
-                TextReStructure.Instance.AddFire();
-            }
-            else if (this.GetComponent<CharacterGeneratorSingle>().input == "FISH")
-            {
-                TextReStructure.Instance.AddFish();
+                GameObject.Find("RespoundText").GetComponent<Text>().text = "Guess Again";
             }
         }
         else
         {
-            Debug.Log("False");
+            if (this.GetComponent<CharacterGeneratorSingle>().input == RandomQuestion.Instance.Question.ToUpper())
+            {
+                    GameObject.Find("RespoundText").GetComponent<Text>().text = "Next One";
+                if (this.GetComponent<CharacterGeneratorSingle>().input == "FIRE")
+                {
+                    RandomQuestion.Instance.GameEnd = 1;
+                    TextReStructure.Instance.AddFire();
+                    RandomQuestion.Instance.Question = "LORD";
+                }
+                else if (this.GetComponent<CharacterGeneratorSingle>().input == "FISH")
+                {
+                    RandomQuestion.Instance.GameEnd = 1;
+                    TextReStructure.Instance.AddFish();
+                    RandomQuestion.Instance.Question = "RIVER";
+                    
+                }
+                else if (this.GetComponent<CharacterGeneratorSingle>().input == "RIVER")
+                {
+                    RandomQuestion.Instance.GameEnd = 1;
+                    TextReStructure.Instance.AddRiver();
+                    RandomQuestion.Instance.Question = "FISH";
+                }
+            }
+            else
+            {
+                GameObject.Find("RespoundText").GetComponent<Text>().text = "Guess Again";
+            }
         }
+
     }
 }

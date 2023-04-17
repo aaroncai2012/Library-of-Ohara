@@ -22,9 +22,22 @@ public class CharacterGenerator1 : MonoBehaviour
     public int wordNumPerLine;
     [HideInInspector] public Sprite[] characters; // 0~9: 0~9; A~Z: 10~35 -> ASCII - 55
 
-    void Start()
+    public static CharacterGenerator1 Instance;
+    private void Awake()
     {
+        if (!Instance) Instance = this;
         
+    }
+    public void Start()
+    {
+        if (canvas.transform.childCount != 0)
+        {
+            for (int i = canvas.transform.childCount - 1; i >= 0; i--)
+            {
+                if(canvas.transform.GetChild(i).gameObject.tag == "Character")
+                    Destroy(canvas.transform.GetChild(i).gameObject);
+            }
+        }
         characters = Resources.LoadAll<Sprite>("Characters");
         input = new string(input.Where(c => !char.IsPunctuation(c)).ToArray());
         input = input.ToUpper();
@@ -74,6 +87,15 @@ public class CharacterGenerator1 : MonoBehaviour
 
             wordCountPerSentence += 1;
         }
+        if(RandomQuestion.Instance.GameEnd == 1)
+        {
+            for (int i = canvas.transform.childCount - 1; i >= 0; i--)
+            {
+                if (canvas.transform.GetChild(i).gameObject.tag == "Character")
+                    canvas.transform.GetChild(i).gameObject.transform.position = new Vector3(canvas.transform.GetChild(i).gameObject.transform.position.x, canvas.transform.GetChild(i).gameObject.transform.position.y + 170, canvas.transform.GetChild(i).gameObject.transform.position.z);
+            }
+        }
+
     }
 
     void Character(int i, Position position, Vector2 center)

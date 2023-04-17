@@ -16,8 +16,15 @@ public class CharacterGeneratorSingle : MonoBehaviour
     public int wordNumPerLine;
     [HideInInspector] public Sprite[] characters; // 0~9: 0~9; A~Z: 10~35 -> ASCII - 55
 
-    void Start()
+    public void Start()
     {
+        if (transform.childCount != 0)
+        {
+            for (int i = transform.childCount - 1; i >= 0; i--)
+            {
+                Destroy(transform.GetChild(i).gameObject);
+            }
+        }
 
         characters = Resources.LoadAll<Sprite>("Characters");
         input = new string(input.Where(c => !char.IsPunctuation(c)).ToArray());

@@ -9,6 +9,7 @@ public class RandomQuestion : MonoBehaviour
     public string[] QuestionList;
     public string Question;
 
+    public int GameEnd = 0;
     public static RandomQuestion Instance;
     private void Awake()
     {

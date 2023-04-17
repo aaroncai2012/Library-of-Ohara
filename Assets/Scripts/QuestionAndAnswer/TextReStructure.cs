@@ -12,6 +12,7 @@ public class TextReStructure : MonoBehaviour
 
     public int sentenceOrder;
     public int nounPhraseOrder;
+    public int negationOrder;
     public static TextReStructure Instance;
     void Awake()
     {
@@ -19,6 +20,8 @@ public class TextReStructure : MonoBehaviour
 
         sentenceOrder = this.GetComponent<GrammarGenerator>().currentSentenceOrder;
         nounPhraseOrder = this.GetComponent<GrammarGenerator>().currentNounPhraseOrder;
+        negationOrder = this.GetComponent<GrammarGenerator>().currentNegationMethod;
+
         var subject = "lord";
         var verb = "gave";
         string Objects = "";
@@ -119,9 +122,11 @@ public class TextReStructure : MonoBehaviour
             sentence = verb + " " + subject + " " + Objects;
         }
 
-        this.GetComponent<CharacterGenerator1>().input += sentence + " " + "N";
+        this.GetComponent<CharacterGenerator1>().input += " " + sentence + " " + "N";
 
         GameObject.Find("EnglishText").GetComponent<Text>().text += "Followers throw offerings to the lord into fire.";
+        this.GetComponent<CharacterGenerator1>().Start();
+        PossibleAnswerList.Instance.ChangeToLordAnswerList();
     }
     public void AddFish()
     {
@@ -133,30 +138,77 @@ public class TextReStructure : MonoBehaviour
         string subclauseNoun = "fish", subclauseAdjective = "many";
         string sentence = "";
 
-        if (nounPhraseOrder == 0)
+        if (negationOrder == 0)
         {
-            //Objects = subclauseObject + " " + subclauseVerb + " " + subclauseSubject;
-        }
-        else
-        {
-            //Objects = subclauseSubject + " " + subclauseVerb + " " + subclauseObject;
-        }
+            subject = subjectAdjective + " " + subjectNoun;
+            Objects = subclauseAdjective + " " + subclauseNoun;
+            sentence = subject + " " + verb + " " + Objects;
 
-        if (sentenceOrder == 1)
+        }
+        else if (negationOrder == 1)
         {
+            subject = subjectAdjective + " " + subjectNoun;
+            Objects = subclauseAdjective + " " + subclauseNoun;
+            sentence = Objects + " " + verb + " " + subject;
+        }
+        else if (negationOrder == 2)
+        {
+            subject = subjectNoun + " " + subjectAdjective;
+            Objects = subclauseNoun + " " + subclauseAdjective;
             sentence = subject + " " + verb + " " + Objects;
         }
-        else if (sentenceOrder == 2)
+        else
         {
-            sentence = subject + " " + Objects + " " + verb;
+            subject = subjectNoun + " " + subjectAdjective;
+            Objects = subclauseNoun + " " + subclauseAdjective;
+            sentence = Objects + " " + verb + " " + subject;
+        }
+            this.GetComponent<CharacterGenerator1>().input += " " + sentence + " " + "N";
+
+        GameObject.Find("EnglishText").GetComponent<Text>().text += "The river near the mountain has many fish.";
+        this.GetComponent<CharacterGenerator1>().Start();
+        PossibleAnswerList.Instance.ChangeToRiverAnswerList();
+    }
+
+    public void AddRiver()
+    {
+        var subject = "";
+        var subjectNoun = "river";
+        var subjectAdjective = "near the mountain";
+        var verb = "has";
+        string Objects = "";
+        string subclauseNoun = "fish", subclauseAdjective = "many";
+        string sentence = "";
+
+        if (negationOrder == 0)
+        {
+            subject = subjectAdjective + " " + subjectNoun;
+            Objects = subclauseAdjective + " " + subclauseNoun;
+            sentence = subject + " " + verb + " " + Objects;
+
+        }
+        else if (negationOrder == 1)
+        {
+            subject = subjectAdjective + " " + subjectNoun;
+            Objects = subclauseAdjective + " " + subclauseNoun;
+            sentence = Objects + " " + verb + " " + subject;
+        }
+        else if (negationOrder == 2)
+        {
+            subject = subjectNoun + " " + subjectAdjective;
+            Objects = subclauseNoun + " " + subclauseAdjective;
+            sentence = subject + " " + verb + " " + Objects;
         }
         else
         {
-            sentence = verb + " " + subject + " " + Objects;
+            subject = subjectNoun + " " + subjectAdjective;
+            Objects = subclauseNoun + " " + subclauseAdjective;
+            sentence = Objects + " " + verb + " " + subject;
         }
-
-        this.GetComponent<CharacterGenerator1>().input += sentence + " " + "N";
+        this.GetComponent<CharacterGenerator1>().input += " " + sentence + " " + "N";
 
         GameObject.Find("EnglishText").GetComponent<Text>().text += "The river near the mountain has many fish.";
+        this.GetComponent<CharacterGenerator1>().Start();
+        PossibleAnswerList.Instance.ChangeToFishAnswerList();
     }
 }
